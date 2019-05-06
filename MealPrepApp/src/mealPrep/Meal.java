@@ -20,7 +20,7 @@ public class Meal extends Food {
 
 	private boolean Vegan;
 
-	private boolean Vegitarian;
+	private boolean Vegetarian;
 
 	public Meal() {
 
@@ -36,7 +36,7 @@ public class Meal extends Food {
 
 		this.Vegan = false;
 
-		this.Vegitarian = false;
+		this.Vegetarian = false;
 	}
 
 	public Meal(ArrayList<Food> Foods, ArrayList<Integer> Servings) {
@@ -59,11 +59,11 @@ public class Meal extends Food {
 					}
 				}
 
-				if (this.Vegitarian) {
-					if (getVegitarian(Foods.get(i))) {
-						this.Vegitarian = true;
+				if (this.Vegetarian) {
+					if (getVegetarian(Foods.get(i))) {
+						this.Vegetarian = true;
 					} else {
-						this.Vegitarian = false;
+						this.Vegetarian = false;
 					}
 				}
 				
@@ -74,13 +74,67 @@ public class Meal extends Food {
 					this.Vegan = false;
 				}
 
-				if (getVegitarian(Foods.get(i))) {
-					this.Vegitarian = true;
+				if (getVegetarian(Foods.get(i))) {
+					this.Vegetarian = true;
 				} else {
-					this.Vegitarian = false;
+					this.Vegetarian = false;
 				}
 			}
 
+		}
+	}
+	
+	public static String getName(Meal Meal) {
+		return Meal.Name;
+	}
+	
+	public static int getCalories(Meal Meal, int Serving) {
+		return Meal.Calories * Serving;
+	}
+	
+	public static int getProtein(Meal Meal, int Serving) {
+		return Meal.Protein * Serving;
+	}
+	
+	public static int getCarbs(Meal Meal, int Serving) {
+		return Meal.Carbs * Serving;
+	}
+	
+	public static int getFat(Meal Meal, int Serving) {
+		return Meal.Fat * Serving;
+	}
+	
+	public static boolean getVegan(Meal Meal) {
+		return Meal.Vegan;
+	}
+	
+	public static boolean getVegetarian(Meal Meal) {
+		return Meal.Vegetarian;
+	}
+	
+	public static void printMeal(Meal Meal, int Serving) {
+		System.out.println();
+
+		System.out.println(getName(Meal));
+
+		System.out.println("Calories: " + getCalories(Meal, Serving));
+
+		System.out.println("Protein: " + getProtein(Meal, Serving));
+
+		System.out.println("Carbohydrates: " + getCarbs(Meal, Serving));
+
+		System.out.println("Fat: " + getFat(Meal, Serving));
+
+		if (getVegan(Meal)) {
+			System.out.println("Vegan: Yes");
+		} else {
+			System.out.println("Vegan: No");
+		}
+
+		if (getVegetarian(Meal)) {
+			System.out.println("Vegetarian: Yes");
+		} else {
+			System.out.println("Vegetarian: No");
 		}
 	}
 
