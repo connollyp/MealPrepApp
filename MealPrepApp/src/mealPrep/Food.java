@@ -11,6 +11,8 @@ public class Food {
 	private int Carbs;
 
 	private int Fat;
+	
+	private int Sugar;
 
 	private boolean Vegan;
 
@@ -30,6 +32,8 @@ public class Food {
 		this.Carbs = 0;
 
 		this.Fat = 0;
+		
+		this.Sugar = 0;
 
 		this.Vegan = false;
 
@@ -53,7 +57,7 @@ public class Food {
 	 * @param Vegetarian
 	 *            Whether or not the food is Vegetarian
 	 */
-	public Food(String name, int Calories, int Protein, int Carbs, int Fat, boolean Vegan, boolean Vegetarian) {
+	public Food(String name, int Calories, int Protein, int Carbs, int Fat, int Sugar, boolean Vegan, boolean Vegetarian) {
 
 		this.Name = name;
 
@@ -64,6 +68,8 @@ public class Food {
 		this.Carbs = Carbs;
 
 		this.Fat = Fat;
+		
+		this.Sugar = Sugar;
 
 		this.Vegan = Vegan;
 
@@ -115,7 +121,17 @@ public class Food {
 	public static int getFatSum(Food food1, int serving1, Food food2, int serving2) {
 		return (food1.Fat * serving1) + (food2.Fat * serving2);
 	}
+	
+	// Returns the amount of sugar in a given serving of the food
+	public static int getSugar(Food food, int serving) {
+		return food.Sugar;
+	}
 
+	// Returns the amount of sugar in the individuals servings of two foods
+	public static int getSugarSum(Food food1, int serving1, Food food2, int serving2) {
+		return (food1.Sugar * serving1) + (food2.Sugar * serving2);
+	}
+	
 	// Returns a boolean value of whether the given food is Vegan
 	public static boolean getVegan(Food food) {
 		return food.Vegan;
@@ -158,6 +174,8 @@ public class Food {
 		System.out.println("Carbohydrates: " + getCarbs(food, serving));
 
 		System.out.println("Fat: " + getFat(food, serving));
+		
+		System.out.println("Sugar: " + getSugar(food, serving));
 
 		if (getVegan(food)) {
 			System.out.println("Vegan: Yes");

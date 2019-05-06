@@ -17,6 +17,8 @@ public class Meal extends Food {
 	private int Carbs;
 
 	private int Fat;
+	
+	private int Sugar;
 
 	private boolean Vegan;
 
@@ -33,6 +35,8 @@ public class Meal extends Food {
 		this.Carbs = 0;
 
 		this.Fat = 0;
+		
+		this.Sugar = 0;
 
 		this.Vegan = false;
 
@@ -49,6 +53,8 @@ public class Meal extends Food {
 			this.Carbs += getCarbs(Foods.get(i), Servings.get(i));
 
 			this.Fat += getFat(Foods.get(i), Servings.get(i));
+			
+			this.Sugar += getSugar(Foods.get(i), Servings.get(i));
 
 			if (0 < i) {
 				if (this.Vegan) {
@@ -102,6 +108,10 @@ public class Meal extends Food {
 	
 	public static int getFat(Meal Meal, int Serving) {
 		return Meal.Fat * Serving;
+	}
+	
+	public static int getSugar(Meal Meal, int Serving) {
+		return Meal.Sugar * Serving;
 	}
 	
 	public static boolean getVegan(Meal Meal) {
