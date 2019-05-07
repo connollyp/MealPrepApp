@@ -1,0 +1,67 @@
+DROP TABLE IF EXISTS MealsInPlan_t;
+DROP TABLE IF EXISTS MealPlan_t;
+DROP TABLE IF EXISTS FoodsInMeal_t;
+DROP TABLE IF EXISTS Meals_t;
+DROP TABLE IF EXISTS Foods_t;
+
+CREATE TABLE Foods_t (
+    FId				INT,
+    Name			VARCHAR(40),
+    Calories		INT,
+    Protein			INT,
+    Carbs			INT,
+    Sugar			INT,
+    Vegan			BOOLEAN,
+    Vegetarian		BOOLEAN,
+    StandardServing	INT,
+    ServingUnit		VARCHAR(20),
+    
+    CONSTRAINT F_PK PRIMARY KEY (FId)
+);
+
+CREATE TABLE Meals_t (
+    MId				INT,
+    Name			VARCHAR(40),
+    Calories		INT,
+    Protein			INT,
+    Carbs			INT,
+    Sugar			INT,
+    Vegan			BOOLEAN,
+    Vegetarian		BOOLEAN,
+    StandardServing	INT,
+    ServingUnit		VARCHAR(20),
+    
+    CONSTRAINT F_PK PRIMARY KEY (MId)
+);
+
+CREATE TABLE FoodsInMeal_t (
+    FId				INT,
+    MId 			INT,
+    
+    CONSTRAINT FM_PK PRIMARY KEY (FId),
+    CONSTRAINT FM_FK1 FOREIGN KEY (FId) REFERENCES Foods_t (FId),
+    CONSTRAINT FM_FK2 FOREIGN KEY (MId) REFERENCES Meals_t (MId)
+);
+
+CREATE TABLE MealPlan_t (
+    PId				INT,
+    Calories		INT,
+    Protein			INT,
+    Carbs			INT,
+    Fat				INT,
+    Sugar			INT,
+    Vegan			BOOLEAN,
+    Vegetarian		BOOLEAN,
+    
+    CONSTRAINT MP_PK PRIMARY KEY (PId)
+);
+
+CREATE TABLE MealsInPlan_t (
+    MId				INT,
+    PId				INT,
+    
+    CONSTRAINT MP_PK PRIMARY KEY (MId),
+    CONSTRAINT MP_FK1 FOREIGN KEY (MId) REFERENCES Meals_t (MId),
+    CONSTRAINT MP_FK2 FOREIGN KEY (PId) REFERENCES MealPlan_t (PId)
+);
+    
