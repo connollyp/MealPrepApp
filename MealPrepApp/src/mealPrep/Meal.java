@@ -23,6 +23,10 @@ public class Meal extends Food {
 	private boolean Vegan;
 
 	private boolean Vegetarian;
+	
+	private int StandardServing;
+	
+	private String ServingUnit;
 
 	public Meal() {
 
@@ -148,9 +152,9 @@ public class Meal extends Food {
 		}
 	}
 	
+	
 
 	public static void main(String[] args) {
-		connectToDatabase();
 
 	}
 
