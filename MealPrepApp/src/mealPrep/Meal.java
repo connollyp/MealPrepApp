@@ -147,9 +147,10 @@ public class Meal extends Food {
 			System.out.println("Vegetarian: No");
 		}
 	}
+	
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		connectToDatabase();
 
 	}
 

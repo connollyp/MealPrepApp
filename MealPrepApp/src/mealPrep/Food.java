@@ -1,6 +1,6 @@
 package mealPrep;
 
-public class Food {
+public class Food extends DatabaseCommands{
 
 	private String Name;
 
@@ -158,6 +158,7 @@ public class Food {
 		} else {
 			return false;
 		}
+		
 	}
 
 	// Prints the nutrition information for the given serving of the food
@@ -191,7 +192,7 @@ public class Food {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		connectToDatabase();
 
 	}
 
