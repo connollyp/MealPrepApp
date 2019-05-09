@@ -30,36 +30,57 @@ public class DatabaseCommands {
 		}
 		return conn;
 	}
+	
+	public static void printMetaData(ResultSet rs) throws SQLException {
+		
+		int colNum = rs.getMetaData().getColumnCount();
+		
+		int i = 1;
+		
+		System.out.println();
+		while(i <= colNum) {
+			System.out.print(rs.getMetaData().getColumnName(i) + "\t");
+			
+			i++;
+		}
+		System.out.println();
+	}
 
-	public static void viewFoods(Connection conn) throws SQLException {
-
+	public static void viewFoodOrMealTable(String Table) throws SQLException {
+		Connection conn = getConnection();
+		
+		
 		Statement stmt = null;
-		String query = "SELECT * FROM " + "mealprep" + ".Foods_t";
+		String query = "SELECT * FROM " + "mealprep" + "." + Table;
 
 		try {
 			stmt = conn.createStatement();
 
 			ResultSet rs = stmt.executeQuery(query);
+			
+			printMetaData(rs);
 
 			while (rs.next()) {
-				int FId = rs.getInt("FId");
-				String Name = rs.getString("Name");
-				int Calories = rs.getInt("Calories");
-				double Protein = rs.getDouble("Protein");
-				double Carbs = rs.getDouble("Carbs");
-				double Fat = rs.getDouble("Fat");
-				double Sugar = rs.getDouble("Sugar");
-				boolean Vegan = rs.getBoolean("Vegan");
-				boolean Vegetarian = rs.getBoolean("Vegetarian");
-				int StandardServing = rs.getInt("StandardServing");
-				String ServingUnit = rs.getString("ServingUnit");
+				int Id = rs.getInt(1);
+				String Name = rs.getString(2);
+				int Calories = rs.getInt(3);
+				double Protein = rs.getDouble(4);
+				double Carbs = rs.getDouble(5);
+				double Fat = rs.getDouble(6);
+				double Sugar = rs.getDouble(7);
+				boolean Vegan = rs.getBoolean(8);
+				boolean Vegetarian = rs.getBoolean(9);
+				int StandardServing = rs.getInt(10);
+				String ServingUnit = rs.getString(11);
 				System.out.println(
-						FId + "\t" + Name + "\t" + Calories + "\t" + 
+						Id + "\t" + Name + "\t" + Calories + "\t" + 
 								Protein + "\t" + Carbs + "\t" + Fat + 
 								"\t" + Sugar + "\t" + Vegan + "\t" + 
 								Vegetarian + "\t" + StandardServing + 
 								"\t" + ServingUnit);
 			}
+			
+			System.out.println();
 			
 			rs.close();
 		} catch (SQLException e) {
@@ -72,10 +93,13 @@ public class DatabaseCommands {
 
 	}
 
-	public static int getFoodCalories(Connection conn, String name) throws SQLException {
+	public static int getCalories(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
 		Statement stmt = null;
 
-		String query = "SELECT Calories FROM foods_t WHERE Name = '" + name + "'";
+		String query = "SELECT Calories FROM " + table 
+							+ " WHERE Name = '" + name + "'";
 
 		int Calories = 0;
 		try {
@@ -99,10 +123,13 @@ public class DatabaseCommands {
 		return Calories;
 	}
 
-	public static double getFoodProtein(Connection conn, String name) throws SQLException {
+	public static double getProtein(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
 		Statement stmt = null;
 
-		String query = "SELECT Protein FROM foods_t WHERE Name = '" + name + "'";
+		String query = "SELECT Protein FROM " + table 
+							+ " WHERE Name = '" + name + "'";
 
 		double Protein = 0;
 		try {
@@ -126,5 +153,269 @@ public class DatabaseCommands {
 		return Protein;
 	}
 	
+	public static double getCarbs(String table, String Name) throws SQLException{
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		double Carbs = 0;
+		
+		String query = "SELECT Carbs FROM " + table 
+							+ " WHERE Name = '" + Name + "'";
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				Carbs = rs.getDouble("Carbs");
+				
+				return Carbs;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return Carbs;
+	}
+	
+	public static double getFat(String table, String Name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		double Fat = 0;
+		
+		String query = "SELECT Fat FROM " + table 
+							+ " WHERE Name = '" + Name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				Fat = rs.getDouble("Fat");
+				
+				return Fat;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally{
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return Fat;
+	}
+
+	public static double getSugar(String table, String Name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		double Sugar = 0;
+		
+		String query = "SELECT Sugar FROM " + table 
+							+ " WHERE Name = '" + Name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				Sugar = rs.getDouble("Sugar");
+				
+				return Sugar;
+			}
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return Sugar;
+	}
+	
+	public static boolean getVegan(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		boolean Vegan = false;
+		
+		String query = "SELECT Vegan FROM " + table 
+							+ " WHERE Name = '" + name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				Vegan = rs.getBoolean("Vegan");
+				
+				return Vegan;
+			}
+			
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		return Vegan;
+	}
+	
+	public static boolean getVegetarian(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		boolean Vegetarian = false;
+		
+		String query = "SELECT Vegetarian FROM " + table 
+							+ " WHERE Name = '" + name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				Vegetarian = rs.getBoolean("Vegetarian");
+				
+				return Vegetarian;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return Vegetarian;
+	}
+	
+	public static int getStandardServing(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		int StandardServing = 1;
+		
+		String query = "SELECT StandardServing FROM " + table 
+							+ " WHERE Name = '" + name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				StandardServing = rs.getInt("StandardServing");
+				
+				return StandardServing;
+			}
+			
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return StandardServing;
+	}
+	
+	public static String getServingUnit(String table, String name) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		String ServingUnit = "";
+		
+		String query = "SELECT ServingUnit FROM " + table 
+							+ " WHERE Name = '" + name + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				ServingUnit = rs.getString("ServingUnit");
+				
+				return ServingUnit;
+			}
+			
+			rs.close();
+		}catch(SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		return ServingUnit;
+	}
+
+	public static void inputFoodOrMeal(String table, String Name, int Calories, double Protein, double Carbs, double Fat, double Sugar, boolean Vegan, boolean Vegetarian, int StandardServing, String ServingUnit) throws SQLException{
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		int ID = 0;
+		
+		String query = "SELECT MAX(FId) FROM " + table;
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				ID = rs.getInt(1) + 1;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		query = "INSERT INTO " + table + " VALUES (" + ID + ", '" + Name 
+					+ "', " + Calories + ", " + Protein + ", " + Carbs 
+					+ ", " + Fat + ", " + Sugar + ", " + Vegan + ", "
+					+ Vegetarian + ", " + StandardServing + ", '" 
+					+ ServingUnit + "');";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			stmt.executeUpdate(query);
+			
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+	}
 
 }

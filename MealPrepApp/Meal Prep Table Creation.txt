@@ -8,9 +8,10 @@ CREATE TABLE Foods_t (
     FId				INT,
     Name			VARCHAR(40),
     Calories		INT,
-    Protein			INT,
-    Carbs			INT,
-    Sugar			INT,
+    Protein			FLOAT,
+    Carbs			FLOAT,
+    Fat				FLOAT,
+    Sugar			FLOAT,
     Vegan			BOOLEAN,
     Vegetarian		BOOLEAN,
     StandardServing	INT,
@@ -23,9 +24,10 @@ CREATE TABLE Meals_t (
     MId				INT,
     Name			VARCHAR(40),
     Calories		INT,
-    Protein			INT,
-    Carbs			INT,
-    Sugar			INT,
+    Protein			FLOAT,
+    Carbs			FLOAT,
+    Fat				FLOAT,
+    Sugar			FLOAT,
     Vegan			BOOLEAN,
     Vegetarian		BOOLEAN,
     StandardServing	INT,
@@ -37,6 +39,8 @@ CREATE TABLE Meals_t (
 CREATE TABLE FoodsInMeal_t (
     FId				INT,
     MId 			INT,
+    FServing		FLOAT,
+    FUnit			VARCHAR(20),
     
     CONSTRAINT FM_PK PRIMARY KEY (FId),
     CONSTRAINT FM_FK1 FOREIGN KEY (FId) REFERENCES Foods_t (FId),
@@ -46,10 +50,10 @@ CREATE TABLE FoodsInMeal_t (
 CREATE TABLE MealPlan_t (
     PId				INT,
     Calories		INT,
-    Protein			INT,
-    Carbs			INT,
-    Fat				INT,
-    Sugar			INT,
+    Protein			FLOAT,
+    Carbs			FLOAT,
+    Fat				FLOAT,
+    Sugar			FLOAT,
     Vegan			BOOLEAN,
     Vegetarian		BOOLEAN,
     
@@ -65,3 +69,13 @@ CREATE TABLE MealsInPlan_t (
     CONSTRAINT MP_FK2 FOREIGN KEY (PId) REFERENCES MealPlan_t (PId)
 );
     
+INSERT INTO foods_t VALUES 
+    (1, 'Chicken Breast', 231, 43, 0, 5, 0, FALSE, FALSE, 140, 'Grams'),
+    (2, 'Broccoli', 50, 4, 10, 0, 3, TRUE, TRUE, 148, 'Grams');
+    
+INSERT INTO meals_t VALUES
+	(1, 'Chicken and Broccoli', 331, 47, 10, 5, 3, FALSE, FALSE, 436, 'Grams');
+    
+INSERT INTO FoodsInMeal_t VALUES 
+	(1, 1, 1, 'Grams'),
+	(2, 1, 2, 'Grams');

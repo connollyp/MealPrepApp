@@ -2,6 +2,9 @@ package mealPrep;
 
 import java.util.ArrayList;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class Meal extends Food {
 
 	private String Name;
@@ -45,6 +48,10 @@ public class Meal extends Food {
 		this.Vegan = false;
 
 		this.Vegetarian = false;
+		
+		this.StandardServing = 1;
+		
+		this.ServingUnit = "Grams";
 	}
 
 	public Meal(ArrayList<Food> Foods, ArrayList<Integer> Servings) {
@@ -154,8 +161,9 @@ public class Meal extends Food {
 	
 	
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws SQLException{
+		
+		viewFoodOrMealTable("meals_t");
 	}
 
 }
