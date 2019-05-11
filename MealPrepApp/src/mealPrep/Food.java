@@ -228,7 +228,7 @@ public class Food extends DatabaseCommands {
 	}
 
 	/**
-	 * Retrusn true if both foods are vegan, false otherwise
+	 * Returns true if both foods are vegan, false otherwise
 	 * 
 	 * @param food1 the first food being used
 	 * @param food2 the second food being used
@@ -375,13 +375,20 @@ public class Food extends DatabaseCommands {
 		System.out.println("Standard Serving: " + getServing(food, 1) + " " + getServingUnit(food));
 	}
 
+	/**
+	 * Allows the user to create an instance of food with user defined variables and
+	 * adds this food to the database
+	 * 
+	 * @return Food instance created by user input
+	 * @throws SQLException
+	 */
 	public static Food createFood() throws SQLException {
 		Food food = new Food();
 
 		Scanner input = new Scanner(System.in);
 
 		System.out.print("What is the name of the food?: ");
-		String Name = input.next();
+		String Name = input.nextLine();
 		food.Name = Name;
 
 		System.out.println();
@@ -431,7 +438,8 @@ public class Food extends DatabaseCommands {
 				Vegan = false;
 				break;
 			} else {
-				System.out.println("Please only enter 'Yes' or 'No'");
+				System.out.println();
+				System.out.println("Please only enter 'Yes' or 'No': ");
 			}
 		} while (VeganStatus.equalsIgnoreCase("Yes") == false || VeganStatus.equalsIgnoreCase("No") == false);
 
@@ -473,8 +481,12 @@ public class Food extends DatabaseCommands {
 
 		System.out.println();
 
-		inputFoodOrMeal("foods_t", Name, Calories, Protein, Carbs, Fat, Sugar, Vegan, Vegetarian, StandardServing,
-				ServingUnit);
+		try {
+			inputFoodOrMeal("foods_t", Name, Calories, Protein, Carbs, Fat, Sugar, Vegan, Vegetarian, StandardServing,
+					ServingUnit);
+		}catch (SQLException e) {
+			System.out.println(e);
+		}
 
 		input.close();
 
