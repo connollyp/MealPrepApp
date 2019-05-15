@@ -24,7 +24,7 @@ public class DatabaseCommands {
 			String password = pros.getProperty("password");
 			// create a connection to the database
 			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("Connected to Database!");
+			//System.out.println("Connected to Database!");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -371,14 +371,14 @@ public class DatabaseCommands {
 		return ServingUnit;
 	}
 
-	public static void inputFoodOrMeal(String table, String Name, int Calories, double Protein, double Carbs, double Fat, double Sugar, boolean Vegan, boolean Vegetarian, int StandardServing, String ServingUnit) throws SQLException{
+	public static void inputFood(String Name, int Calories, double Protein, double Carbs, double Fat, double Sugar, boolean Vegan, boolean Vegetarian, int StandardServing, String ServingUnit) throws SQLException{
 		Connection conn = getConnection();
 		
 		Statement stmt = null;
 		
 		int ID = 0;
 		
-		String query = "SELECT MAX(FId) FROM " + table;
+		String query = "SELECT MAX(FId) FROM foods_t";
 		
 		try {
 			stmt = conn.createStatement();
@@ -397,7 +397,7 @@ public class DatabaseCommands {
 			}
 		}
 		
-		query = "INSERT INTO " + table + " VALUES (" + ID + ", '" + Name 
+		query = "INSERT INTO foods_t VALUES (" + ID + ", '" + Name 
 					+ "', " + Calories + ", " + Protein + ", " + Carbs 
 					+ ", " + Fat + ", " + Sugar + ", " + Vegan + ", "
 					+ Vegetarian + ", " + StandardServing + ", '" 
@@ -409,6 +409,116 @@ public class DatabaseCommands {
 			stmt.executeUpdate(query);
 			
 		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+	}
+	
+	public static void inputMeal(String Name, int Calories, double Protein, double Carbs, double Fat, double Sugar, boolean Vegan, boolean Vegetarian) throws SQLException{
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		int ID = 0;
+		
+		String query = "SELECT MAX(MId) FROM meals_t";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				ID = rs.getInt(1) + 1;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		query = "INSERT INTO meals_t VALUES (" + ID + ", '" + Name 
+					+ "', " + Calories + ", " + Protein + ", " + Carbs 
+					+ ", " + Fat + ", " + Sugar + ", " + Vegan + ", "
+					+ Vegetarian + ");";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			stmt.executeUpdate(query);
+			
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+	}
+	
+	public static void updateFoodsInMeal(String mealName, String foodName, double serving, String unit) throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		int FId = 0;
+		
+		String query = "SELECT MAX(FId) FROM foods_t WHERE Name = '" + foodName + "'";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				FId = rs.getInt(1);
+			}
+			rs.close();
+		}catch(SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		int MId = 0;
+		
+		query = "SELECT MAX(MId)  FROM meals_t WHERE Name = '" + mealName + "'";
+
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				MId = rs.getInt(1);
+			}
+			rs.close();
+		}catch(SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		query = "INSERT INTO foodsinmeal_t VALUES ( " + FId + ", " + MId + ", " + serving + ");";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			stmt.executeUpdate(query);
+			
+		}catch(SQLException e) {
 			System.out.println(e);
 		}finally {
 			if(stmt != null) {

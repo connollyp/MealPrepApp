@@ -30,8 +30,6 @@ CREATE TABLE Meals_t (
     Sugar			FLOAT,
     Vegan			BOOLEAN,
     Vegetarian		BOOLEAN,
-    StandardServing	INT,
-    ServingUnit		VARCHAR(20),
     
     CONSTRAINT F_PK PRIMARY KEY (MId)
 );
@@ -40,7 +38,6 @@ CREATE TABLE FoodsInMeal_t (
     FId				INT,
     MId 			INT,
     FServing		FLOAT,
-    FUnit			VARCHAR(20),
     
     CONSTRAINT FM_PK PRIMARY KEY (FId),
     CONSTRAINT FM_FK1 FOREIGN KEY (FId) REFERENCES Foods_t (FId),
@@ -74,8 +71,8 @@ INSERT INTO foods_t VALUES
     (2, 'Broccoli', 50, 4, 10, 0, 3, TRUE, TRUE, 148, 'Grams');
     
 INSERT INTO meals_t VALUES
-	(1, 'Chicken and Broccoli', 331, 47, 10, 5, 3, FALSE, FALSE, 436, 'Grams');
+	(1, 'Chicken and Broccoli', 331, 47, 10, 5, 3, FALSE, FALSE);
     
 INSERT INTO FoodsInMeal_t VALUES 
-	(1, 1, 1, 'Grams'),
-	(2, 1, 2, 'Grams');
+	(1, 1, 1),
+	(2, 1, 2);

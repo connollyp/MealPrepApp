@@ -1,6 +1,5 @@
 package mealPrep;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -61,8 +60,6 @@ public class Food extends DatabaseCommands {
 	 */
 	public Food(String name) throws SQLException {
 
-		Connection conn = getConnection();
-
 		this.Name = name;
 
 		this.Calories = getCalories("foods_t", name);
@@ -83,7 +80,33 @@ public class Food extends DatabaseCommands {
 
 		this.ServingUnit = getServingUnit("foods_t", name);
 
-		conn.close();
+	}
+	
+	public static Food getFood(String name) throws SQLException {
+		
+		Food Food = new Food();
+
+		Food.Name = name;
+
+		Food.Calories = getCalories("foods_t", name);
+
+		Food.Protein = getProtein("foods_t", name);
+
+		Food.Carbs = getCarbs("foods_t", name);
+
+		Food.Fat = getFat("foods_t", name);
+
+		Food.Sugar = getSugar("foods_t", name);
+
+		Food.Vegan = getVegan("foods_t", name);
+
+		Food.Vegetarian = getVegetarian("foods_t", name);
+
+		Food.StandardServing = getStandardServing("foods_t", name);
+
+		Food.ServingUnit = getServingUnit("foods_t", name);
+		
+		return Food;
 
 	}
 
@@ -104,8 +127,8 @@ public class Food extends DatabaseCommands {
 	 * @param serving the number of servings of food
 	 * @return the number of calories in the given number of servings of the food
 	 */
-	public static int getCalories(Food food, int serving) {
-		return food.Calories * serving;
+	public static int getCalories(Food food, double serving) {
+		return (int) Math.round(food.Calories * serving);
 	}
 
 	/**
@@ -117,8 +140,8 @@ public class Food extends DatabaseCommands {
 	 * @param serving2 the serving of food2
 	 * @return the sum of the calories in the servings of foods 1 and 2
 	 */
-	public static int getCaloriesSum(Food food1, int serving1, Food food2, int serving2) {
-		return (food1.Calories * serving1) + (food2.Calories * serving2);
+	public static int getCaloriesSum(Food food1, double serving1, Food food2, double serving2) {
+		return (int) Math.round((food1.Calories * serving1) + (food2.Calories * serving2));
 	}
 
 	/**
@@ -128,7 +151,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving the serving of food
 	 * @return the number of grams of protein in food
 	 */
-	public static double getProtein(Food food, int serving) {
+	public static double getProtein(Food food, double serving) {
 		return food.Protein * serving;
 	}
 
@@ -141,7 +164,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving2 the serving of food2
 	 * @return the sum of the amount of protein in the servings of foods 1 and 2
 	 */
-	public static double getProteinSum(Food food1, int serving1, Food food2, int serving2) {
+	public static double getProteinSum(Food food1, double serving1, Food food2, double serving2) {
 		return (food1.Protein * serving1) + (food2.Protein * serving2);
 	}
 
@@ -152,7 +175,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving the serving of food
 	 * @return the number of grams of carbs in food
 	 */
-	public static double getCarbs(Food food, int serving) {
+	public static double getCarbs(Food food, double serving) {
 		return food.Carbs * serving;
 	}
 
@@ -165,7 +188,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving2 the serving of food2
 	 * @return the sum of the amount of carbs in foods 1 and 2
 	 */
-	public static double getCarbsSum(Food food1, int serving1, Food food2, int serving2) {
+	public static double getCarbsSum(Food food1, double serving1, Food food2, double serving2) {
 		return (food1.Carbs * serving1) + (food2.Carbs * serving2);
 	}
 
@@ -176,7 +199,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving the serving of food
 	 * @return the number of grams of fat in food
 	 */
-	public static double getFat(Food food, int serving) {
+	public static double getFat(Food food, double serving) {
 		return food.Fat * serving;
 	}
 
@@ -189,7 +212,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving2 the serving of food2
 	 * @return the sum of the amount of fat in foods 1 and 2
 	 */
-	public static double getFatSum(Food food1, int serving1, Food food2, int serving2) {
+	public static double getFatSum(Food food1, double serving1, Food food2, double serving2) {
 		return (food1.Fat * serving1) + (food2.Fat * serving2);
 	}
 
@@ -200,7 +223,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving the serving of food
 	 * @return the number of grams of sugar in food
 	 */
-	public static double getSugar(Food food, int serving) {
+	public static double getSugar(Food food, double serving) {
 		return food.Sugar;
 	}
 
@@ -213,7 +236,7 @@ public class Food extends DatabaseCommands {
 	 * @param serving2 the serving of food2
 	 * @return the number of grams of sugar in foods 1 and 2
 	 */
-	public static double getSugarSum(Food food1, int serving1, Food food2, int serving2) {
+	public static double getSugarSum(Food food1, double serving1, Food food2, double serving2) {
 		return (food1.Sugar * serving1) + (food2.Sugar * serving2);
 	}
 
@@ -311,8 +334,8 @@ public class Food extends DatabaseCommands {
 
 		System.out.println(getName(food));
 
-		System.out
-				.println("Servings: " + serving + " (" + getServing(food, serving) + " " + getServingUnit(food) + ")");
+		System.out.println("Servings: " + serving + " (" 
+				+ getServing(food, serving) + " " + getServingUnit(food) + ")");
 
 		System.out.println("Calories: " + getCalories(food, serving));
 
@@ -336,7 +359,8 @@ public class Food extends DatabaseCommands {
 			System.out.println("Vegetarian: No");
 		}
 
-		System.out.println("Standard Serving: " + getServing(food, 1) + " " + getServingUnit(food));
+		System.out.println("Standard Serving: " + getServing(food, 1) 
+			+ " " + getServingUnit(food));
 	}
 
 	/**
@@ -344,7 +368,7 @@ public class Food extends DatabaseCommands {
 	 * 
 	 * @param food the food who's nutrition information is being sought
 	 */
-	public static void printNutritionInfo(Food food) {
+	public static void printFoodNutritionInfo(Food food) {
 
 		System.out.println();
 
@@ -372,7 +396,8 @@ public class Food extends DatabaseCommands {
 			System.out.println("Vegetarian: No");
 		}
 
-		System.out.println("Standard Serving: " + getServing(food, 1) + " " + getServingUnit(food));
+		System.out.println("Standard Serving: " + getServing(food, 1) 
+			+ " " + getServingUnit(food));
 	}
 
 	/**
@@ -388,42 +413,41 @@ public class Food extends DatabaseCommands {
 		Scanner input = new Scanner(System.in);
 
 		System.out.print("What is the name of the food?: ");
-		String Name = input.nextLine();
-		food.Name = Name;
+		food.Name = input.nextLine();
 
 		System.out.println();
 
-		System.out.print("How many calories are in a " + "standard serving of " + Name + "?: ");
-		int Calories = input.nextInt();
-		food.Calories = Calories;
+		System.out.print("How many calories are in a " 
+				+ "standard serving of " + food.Name + "?: ");
+		food.Calories = input.nextInt();
 
 		System.out.println();
 
-		System.out.print("How many grams of protein are in a " + "standard serving of " + Name + "?: ");
-		double Protein = input.nextDouble();
-		food.Protein = Protein;
+		System.out.print("How many grams of protein are in a " 
+				+ "standard serving of " + food.Name + "?: ");
+		food.Protein = input.nextDouble();
 
 		System.out.println();
 
-		System.out.print("How many grams of carbs are in a " + "standard serving of " + Name + "?: ");
-		double Carbs = input.nextDouble();
-		food.Carbs = Carbs;
+		System.out.print("How many grams of carbs are in a " 
+				+ "standard serving of " + food.Name + "?: ");
+		food.Carbs = input.nextDouble();
 
 		System.out.println();
 
-		System.out.print("How many grams of fat are in a " + "standard sercing of " + Name + "?: ");
-		double Fat = input.nextDouble();
-		food.Fat = Fat;
+		System.out.print("How many grams of fat are in a " 
+				+ "standard sercing of " + food.Name + "?: ");
+		food.Fat = input.nextDouble();
 
 		System.out.println();
 
-		System.out.print("How many grams of sugar are in a " + "standard serving of " + Name + "?: ");
-		double Sugar = input.nextDouble();
-		food.Sugar = Sugar;
+		System.out.print("How many grams of sugar are in a " 
+				+ "standard serving of " + food.Name + "?: ");
+		food.Sugar = input.nextDouble();
 
 		System.out.println();
 
-		System.out.print("Is " + Name + " vegan?: ");
+		System.out.print("Is " + food.Name + " vegan?: ");
 		String VeganStatus;
 		boolean Vegan = false;
 		;
@@ -447,7 +471,7 @@ public class Food extends DatabaseCommands {
 
 		System.out.println();
 
-		System.out.print("Is " + Name + " vegetarian?: ");
+		System.out.print("Is " + food.Name + " vegetarian?: ");
 		String VegStatus;
 		boolean Vegetarian = false;
 
@@ -470,20 +494,21 @@ public class Food extends DatabaseCommands {
 		System.out.println();
 
 		System.out.print("What is the unit of the standard serving?: ");
-		String ServingUnit = input.next();
-		food.ServingUnit = ServingUnit;
+		food.ServingUnit = input.next();
 
 		System.out.println();
 
-		System.out.print("How many " + ServingUnit + "s are in a standard serving?: ");
-		int StandardServing = input.nextInt();
-		food.StandardServing = StandardServing;
+		System.out.print("How many " + food.ServingUnit 
+				+ "s are in a standard serving?: ");
+		food.StandardServing = input.nextInt();
 
 		System.out.println();
 
 		try {
-			inputFoodOrMeal("foods_t", Name, Calories, Protein, Carbs, Fat, Sugar, Vegan, Vegetarian, StandardServing,
-					ServingUnit);
+			inputFood(food.Name, food.Calories, 
+					food.Protein, food.Carbs, food.Fat, food.Sugar, 
+					food.Vegan, food.Vegetarian, food.StandardServing,
+					food.ServingUnit);
 		}catch (SQLException e) {
 			System.out.println(e);
 		}
