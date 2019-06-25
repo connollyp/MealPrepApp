@@ -92,6 +92,44 @@ public class DatabaseCommands {
 		}
 
 	}
+	
+	public static String getName(String table, int Id) throws SQLException{
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		String query = "";
+		
+		if(table == "foods_t") {
+			query = "SELECT Name FROM " + table 
+						+ " WHERE FId = " + Id;
+		}else if(table == "meals_t") {
+			query = "SELECT Name FROM " + table 
+					+ " WHERE MId = " + Id;
+		}
+		
+		String Name = "";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while (rs.next()) {
+				Name = rs.getString(1);
+				return Name;
+			}
+			rs.close();
+		}catch (SQLException e) {
+			System.out.println(e);
+		}finally {
+			if (stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return Name;
+	}
 
 	public static int getCalories(String table, String name) throws SQLException {
 		Connection conn = getConnection();
@@ -464,7 +502,7 @@ public class DatabaseCommands {
 		
 	}
 	
-	public static void updateFoodsInMeal(String mealName, String foodName, double serving, String unit) throws SQLException {
+	public static void updateFoodsInMeal(String mealName, String foodName, double serving) throws SQLException {
 		Connection conn = getConnection();
 		
 		Statement stmt = null;
@@ -526,6 +564,35 @@ public class DatabaseCommands {
 			}
 		}
 		
+	}
+	
+	public static int getNumberOfMeals() throws SQLException {
+		Connection conn = getConnection();
+		
+		Statement stmt = null;
+		
+		int MId = 0;
+		
+		String query = "SELECT MAX(MId) FROM meals_t";
+		
+		try {
+			stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()) {
+				MId = rs.getInt(1);
+			}
+			rs.close();
+		}catch(SQLException e) {
+			System.out.println(e);
+		}finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
+		return MId;
 	}
 
 }

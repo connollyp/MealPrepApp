@@ -261,6 +261,8 @@ public class Meal extends Food {
 		Meal Meal = new Meal();
 
 		Scanner input = new Scanner(System.in);
+		
+		System.out.println();
 
 		System.out.print("What is the name of the Meal?: ");
 		Meal.Name = input.nextLine();
@@ -329,7 +331,7 @@ public class Meal extends Food {
 
 		try {
 			for (int i = 0; i < foodNum; i++) {
-				updateFoodsInMeal(Meal.Name, getName(foods[i]), foodServings[i], getServingUnit(foods[i]));
+				updateFoodsInMeal(Meal.Name, getName(foods[i]), foodServings[i]);
 			}
 		} catch (SQLException e) {
 			System.out.println(e);

@@ -450,7 +450,7 @@ public class Food extends DatabaseCommands {
 		System.out.print("Is " + food.Name + " vegan?: ");
 		String VeganStatus;
 		boolean Vegan = false;
-		;
+		
 
 		do {
 			VeganStatus = input.next();
