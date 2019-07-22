@@ -386,6 +386,11 @@ public class MealPlan extends Meal {
 		return validMealPlans;
 	}
 
+	/**
+	 * Finds all valid combinations of meals and inputs them into the database 
+	 * 
+	 * @throws SQLException
+	 */
 	public static void createMealPlan() throws SQLException {
 
 		clearTable("mealsinplan_t");
@@ -443,6 +448,12 @@ public class MealPlan extends Meal {
 		
 	}
 	
+	
+	/**
+	 * Picks a random meal plan from the database and prints it 
+	 * 
+	 * @throws SQLException
+	 */
 	public static void pickRandomMealPlan() throws SQLException {
 		int PId = getRandomMealPlan();
 		
