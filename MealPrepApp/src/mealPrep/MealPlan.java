@@ -483,9 +483,9 @@ public class MealPlan extends Meal {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		//createMealPlan();
+		createMealPlan();
 
-		pickRandomMealPlan();
+		//pickRandomMealPlan();
 	}
 
 }

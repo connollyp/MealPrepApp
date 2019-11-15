@@ -521,7 +521,8 @@ public class Food extends DatabaseCommands {
 
 	public static void main(String[] args) throws SQLException {
 
-		createFood();
+		//createFood();
+		
 	}
 
 }

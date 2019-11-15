@@ -3,6 +3,9 @@ package mealPrep;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -92,11 +95,17 @@ public class DatabaseCommands {
 				double Sugar = rs.getDouble(7);
 				boolean Vegan = rs.getBoolean(8);
 				boolean Vegetarian = rs.getBoolean(9);
-				int StandardServing = rs.getInt(10);
-				String ServingUnit = rs.getString(11);
-				System.out.println(
-						Id + "\t" + Name + "\t" + Calories + "\t" + Protein + "\t" + Carbs + "\t" + Fat + "\t" + Sugar
-								+ "\t" + Vegan + "\t" + Vegetarian + "\t" + StandardServing + "\t" + ServingUnit);
+				if(Table.equals("foods_t")) {
+					int StandardServing = rs.getInt(10);
+					String ServingUnit = rs.getString(11);
+					System.out.println(
+							Id + "\t" + Name + "\t" + Calories + "\t" + Protein + "\t" + Carbs + "\t" + Fat + "\t" + Sugar
+									+ "\t" + Vegan + "\t" + Vegetarian + "\t" + StandardServing + "\t" + ServingUnit);
+				}else if(Table.equals("meals_t")) {
+					System.out.println(
+							Id + "\t" + Name + "\t" + Calories + "\t" + Protein + "\t" + Carbs + "\t" + Fat + "\t" + Sugar
+									+ "\t" + Vegan + "\t" + Vegetarian);
+				}
 			}
 
 			System.out.println();
@@ -1241,6 +1250,10 @@ public class DatabaseCommands {
 		}
 
 		return meals;
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		viewFoodOrMealTable("foods_t");
 	}
 
 }
